@@ -65,23 +65,19 @@ Edite os arquivos com suas credenciais:
 Servidor
 
     Execute o atualizador de IP:
-    bash
-
-python3 server_update_ip.py
+    python3 server_update_ip.py
 
 Este script atualizará seu IP público no Gist a cada 5 minutos.
 
 Em outro terminal, inicie o servidor:
-bash
 
     python3 server.py
 
 Cliente
 
 Execute o cliente em outra máquina:
-bash
 
-python3 client.py
+    python3 client.py
 
 ⌨️ Comandos Disponíveis
 Comando	Descrição
