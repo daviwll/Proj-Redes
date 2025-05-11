@@ -2,6 +2,19 @@
 
 
 Remote Shell Connection System
+
+------------SE QUISER TESTAR SEM O TOKEN DO GITHUB É SÓ COLOCAR O IP LOCAL DO SEU PC E ABRIR O CLIENT.PY EM OUTRO PC ---------------------------------------------------------------------
+
+# O QUE FALTA:
+- Transformar o client.py em executável
+- Implementar a parte de criptografar arquivos
+- Fazer a parte visual do menu 
+
+# DA PRA COLOCAR A MAIS
+- Persistência
+- ...
+
+
 📌 Visão Geral
 
 Este sistema permite estabelecer uma conexão remota entre um servidor e um cliente, utilizando um Gist do GitHub para compartilhar dinamicamente o endereço IP do servidor. O cliente pode executar comandos, transferir arquivos e navegar no sistema de arquivos remotamente.
