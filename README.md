@@ -44,12 +44,7 @@ Antes de Tudo coloque o ip do atacante no host(vamos fazer de forma local mesmo)
 
 Servidor
 
-    Execute o atualizador de IP:
-    python3 server_update_ip.py
-
-Este script atualizará seu IP público no Gist a cada 5 minutos.
-
-Em outro terminal, inicie o servidor:
+Inicie o servidor:
 
     python3 server.py
 
