@@ -33,35 +33,15 @@ Este sistema permite estabelecer uma conexão remota entre um servidor e um clie
 remote_shell/
 ├── server.py            # Script principal do servidor
 ├── client.py            # Script do cliente
-├── server_update_ip.py  # Atualiza o IP no Gist
 └── README.md            # Este arquivo
 
 🔧 Configuração Inicial
-1. Criar um Gist no GitHub
-
-    Acesse https://gist.github.com
-
-    Crie um novo Gist com um arquivo chamado ip.txt
-
-    Anote o ID do Gist (parte final da URL)
-
-2. Gerar Token de Acesso
-
-    Vá em GitHub Settings > Developer Settings > Personal Access Tokens
-
-    Crie um novo token com permissão gist
-
-    Guarde este token com segurança
-
-3. Configurar os Scripts
-
-Edite os arquivos com suas credenciais:
-
-    server_update_ip.py: Insira seu GIST_ID e GITHUB_TOKEN
-
-    client.py: Verifique se a GIST_RAW_URL aponta para seu Gist
 
 🚀 Como Usar
+
+Antes de Tudo coloque o ip do atacante no host(vamos fazer de forma local mesmo)
+
+
 Servidor
 
     Execute o atualizador de IP:
