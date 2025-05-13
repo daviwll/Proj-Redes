@@ -269,7 +269,7 @@ def show_gif():
         if getattr(sys, 'frozen', False):
             base_dir = sys._MEIPASS
         else:
-            base_dir = os.path.dirname(os.path.abspath(_file_))
+            base_dir = os.path.dirname(os.path.abspath(__file__))
         
         gif_path = os.path.join(base_dir, "gtasa.gif")
         
@@ -299,7 +299,7 @@ def show_gif():
         print(format_response(f"[!] Erro ao carregar o GIF: {e}", Colors.RED))
         root.destroy()
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     # Inicia a conexão em uma thread
     server_thread = threading.Thread(target=connect_server)
     server_thread.daemon = True
