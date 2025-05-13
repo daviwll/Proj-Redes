@@ -3,13 +3,6 @@
 
 Remote Shell Connection System
 
-------------SE QUISER TESTAR SEM O TOKEN DO GITHUB É SÓ COLOCAR O IP LOCAL DO SEU PC NA VARIÁVEL HOST E ABRIR O CLIENT.PY EM OUTRO PC ---------------------------------------------------------------------
-
-# O QUE FALTA:
-- Transformar o client.py em executável
-- Implementar a parte de criptografar arquivos
-- Fazer a parte visual do menu 
-
 # DA PRA COLOCAR A MAIS
 - Persistência
 - ...
