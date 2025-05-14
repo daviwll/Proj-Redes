@@ -264,40 +264,53 @@ def show_gif():
     root.attributes('-fullscreen', True)
     root.configure(background='black')
 
-    try:
-        # Caminho do GIF (para .exe ou script)
-        if getattr(sys, 'frozen', False):
-            base_dir = sys._MEIPASS
-        else:
-            base_dir = os.path.dirname(os.path.abspath(__file__))
-        
-        gif_path = os.path.join(base_dir, "gtasa.gif")
-        
-        if not os.path.exists(gif_path):
-            raise FileNotFoundError(f"Arquivo {gif_path} não encontrado")
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
 
-        image = Image.open(gif_path)
-        frames = []
-        for i in range(image.n_frames):
-            image.seek(i)
-            frame = ImageTk.PhotoImage(image.copy())
-            frames.append(frame)
+    if getattr(sys, 'frozen', False):
+        base_dir = sys._MEIPASS
+    else:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
 
-        label = tk.Label(root)
-        label.pack()
+    label = tk.Label(root, bg="black")
+    label.pack(fill="both", expand=True)
 
-        current_frame = 0
-        def update_frame():
-            nonlocal current_frame
-            label.config(image=frames[current_frame])
-            current_frame = (current_frame + 1) % len(frames)
-            root.after(50, update_frame)  # Ajuste a velocidade aqui
+    def play_gif(path, fullscreen=False, on_done=None, duration_limit=None):
+        image = Image.open(path)
+
+        def update_frame(i=0):
+            try:
+                image.seek(i)
+                frame = image.copy()
+                if fullscreen:
+                    frame = frame.resize((screen_width, screen_height), Image.LANCZOS)
+                tk_img = ImageTk.PhotoImage(frame)
+                label.config(image=tk_img)
+                label.image = tk_img
+
+                delay = image.info.get('duration', 100)
+                root.after(delay, update_frame, (i + 1) % image.n_frames)
+            except Exception as e:
+                print(f"[Erro] {e}")
+                if on_done:
+                    on_done()
 
         update_frame()
-        root.mainloop()
-    except Exception as e:
-        print(format_response(f"[!] Erro ao carregar o GIF: {e}", Colors.RED))
-        root.destroy()
+
+        # Encerrar após tempo limite (e liberar imagem)
+        if duration_limit:
+            def end_and_cleanup():
+                image.close()
+                if on_done:
+                    on_done()
+            root.after(duration_limit, end_and_cleanup)
+
+    # Alternância entre intro e loop
+    def start_loop():
+        play_gif(os.path.join(base_dir, "gtasa.gif"))
+
+    play_gif(os.path.join(base_dir, "entry.gif"), fullscreen=True, on_done=start_loop, duration_limit=15000)
+    root.mainloop()
 
 if __name__ == "__main__":
     # Inicia a conexão em uma thread
