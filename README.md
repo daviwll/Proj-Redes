@@ -1,6 +1,7 @@
 # N.O.M.E. – Núcleo Operacional de Monitoramento e Exfiltração
 
 Significado:
+
 Núcleo Operacional → indica que é um centro de controle (como uma shell reversa que comanda a máquina).
 
 Monitoramento → cobre a execução de comandos, acesso a dados.
