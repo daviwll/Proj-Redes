@@ -48,6 +48,7 @@ Execute o servidor:
 ``
 python server.py
 ``
+
 Execute o cliente (em outro computador):
 
 
