@@ -38,28 +38,44 @@ Um sistema cliente-servidor para gerenciamento remoto de computadores com interf
 ## 🔧 Requisitos e Instalação
 
 1. Instale as dependências:
-```bash
+``
 pip install cryptography pillow
+``
 
-    Execute o servidor:
+Execute o servidor:
 
-bash
 
+``
 python server.py
+``
+Execute o cliente (em outro computador):
 
-    Execute o cliente (em outro computador):
 
-bash
-
+`
 python client.py
+`
 
-📋 Comandos Suportados
-Comando	Descrição
-cd [dir]	Muda diretório no cliente
-ls	Lista arquivos no diretório atual
-get [arquivo]	Baixa arquivo do cliente
-exec [cmd]	Executa comando shell no cliente
-encrypt	Criptografa todos os arquivos do cliente
-decrypt	Descriptografa arquivos do cliente
-backup	Cria backup dos arquivos do cliente
-exit	Encerra conexão com o cliente
+## 📋 Comandos Suportados
+
+| Comando         | Descrição                                   | Exemplo de Uso               |
+|-----------------|--------------------------------------------|-----------------------------|
+| `cd [diretório]`| Muda o diretório de trabalho no cliente    | `cd /home/user/Documents`   |
+| `ls`            | Lista arquivos do diretório atual          | `ls`                        |
+| `get [arquivo]` | Baixa um arquivo do cliente                | `get relatorio.pdf`         |
+| `exec [comando]`| Executa comandos shell no cliente          | `exec ping google.com`      |
+| `encrypt`       | Criptografa todos os arquivos do cliente   | `encrypt`                   |
+| `decrypt`       | Descriptografa arquivos .encrypted         | `decrypt`                   |
+| `backup`        | Cria backup dos arquivos do cliente        | `backup`                    |
+| `exit`          | Encerra a conexão com o cliente            | `exit`                      |
+
+📌 Melhorias Futuras
+
+    Autenticação de clientes
+
+    Canais criptografados
+
+    Sistema de plugins para comandos
+
+    Compactação de arquivos durante transferência
+
+    Suporte a UDP para comandos rápidos
