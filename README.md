@@ -51,6 +51,7 @@ python server.py
 ``
 
 Execute o cliente (em outro computador):
+
 *Antes coloque o seu ip local na parte de host*
 
 `HOST = "127.0.0.1"  # Substitua pelo IP do servidor se necessário`
