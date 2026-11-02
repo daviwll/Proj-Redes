@@ -1,3 +1,5 @@
+> **Aviso:** trabalho acadêmico da disciplina de Redes de Computadores (UFAL), feito para estudo de técnicas de Red Team. Use apenas em laboratório controlado, em máquinas próprias ou com autorização explícita.
+
 # Proj-Redes
 
 
